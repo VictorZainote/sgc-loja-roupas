@@ -1,4 +1,30 @@
 :root {
+    --dark-blue: #0f172a;       /
+    --mid-blue: #1e293b;     
+    --purple: #7209b7;  
+    --light-purple: #b5179e;
+    --off-white: #f8f9fa; 
+    --gray: #334155;      
+}
+
+body {
+    background-color: var(--dark-blue) !important;
+    color: var(--off-white) !important;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+}
+
+header {
+    background-color: #16213e;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--purple);
+}
+
+.logo {
+    font-size: 1.5rem;
     font-weight: bold;
     color: var(--light-purple);
 }
@@ -8,6 +34,7 @@ nav a {
     text-decoration: none;
     margin-left: 20px;
     transition: 0.3s;
+    font-weight: 500;
 }
 
 nav a:hover {
@@ -25,11 +52,12 @@ nav a:hover {
     padding: 25px;
     border-radius: 12px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    border: 1px solid var(--gray);
 }
 
 h1, h2, h3 {
-    color: var(--light-purple);
+    color: var(--light-purple) !important;
     margin-bottom: 15px;
 }
 
@@ -51,21 +79,17 @@ input {
     width: 100%;
     padding: 12px;
     border-radius: 8px;
-    border: none;
+    border: 1px solid var(--gray);
+    background-color: var(--dark-blue);
+    color: white;
     margin-bottom: 15px;
-}
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th,
-.table td {
-    padding: 14px;
-    border-bottom: 1px solid var(--gray);
 }
 
 .table th {
     background-color: var(--purple);
+    color: white;
 }
+
+.table td {
+    border-bottom: 1px solid var(--gray);
+} 

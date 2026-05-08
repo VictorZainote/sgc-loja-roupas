@@ -3,11 +3,14 @@ from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
-from .views import home
 from produtos.views import ProdutoViewSet
 from clientes.views import ClienteViewSet
-from vendas.views import VendaViewSet
-from vendas.views import relatorio_vendas
+from vendas.views import (
+    VendaViewSet,
+    relatorio_vendas
+)
+
+from .views import home
 
 router = DefaultRouter()
 
@@ -16,14 +19,15 @@ router.register(r'clientes', ClienteViewSet)
 router.register(r'vendas', VendaViewSet)
 
 urlpatterns = [
+
     path('', home),
-    
+
     path('admin/', admin.site.urls),
 
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 
     path(
         'relatorios/vendas/',
         relatorio_vendas
     ),
-]
+] 
