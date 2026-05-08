@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SGC Loja</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        SGC Loja
+    </div>
+
+    <nav>
+        <a href="/produtos/">Produtos</a>
+        <a href="/clientes/">Clientes</a>
+        <a href="/vendas/">Vendas</a>
+        <a href="/relatorios/vendas/">Relatórios</a>
+    </nav>
+</header>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>
