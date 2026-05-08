@@ -15,7 +15,19 @@ class VendaViewSet(viewsets.ModelViewSet):
 @api_view(['GET'])
 def relatorio_vendas(request):
 
+    data_inicio = request.GET.get('inicio')
+    data_fim = request.GET.get('fim')
+
     vendas = Venda.objects.all()
+
+    if data_inicio and data_fim:
+
+        vendas = vendas.filter(
+            data_venda__date__range=[
+                data_inicio,
+                data_fim
+            ]
+        )
 
     total_vendas = vendas.count()
 
@@ -24,6 +36,6 @@ def relatorio_vendas(request):
     )
 
     return Response({
-        "total_vendas": total_vendas,
-        "valor_total": valor_total
+        'total_vendas': total_vendas,
+        'valor_total': valor_total
     })
