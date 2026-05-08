@@ -30,4 +30,4 @@ urlpatterns = [
         'relatorios/vendas/',
         relatorio_vendas
     ),
-] 
+]
