@@ -1,10 +1,18 @@
 # SGC - Sistema de Gestão Comercial
 
+## Deploy da Aplicação
+
+Aplicação publicada em:
+
+[LINK_DO_RENDER_AQUI]
+
+---
+
 ## Descrição
 
 Sistema de Gestão Comercial desenvolvido para uma loja de roupas utilizando Django e Django REST Framework.
 
-O sistema permite gerenciamento de clientes, produtos, vendas, controle de estoque e relatórios, seguindo princípios de organização em APIs REST.
+O sistema permite gerenciamento de clientes, produtos, vendas, controle de estoque e relatórios, seguindo princípios de APIs REST, integração com serviços externos e testes automatizados.
 
 ---
 
@@ -19,7 +27,33 @@ O sistema permite gerenciamento de clientes, produtos, vendas, controle de estoq
 - Relatórios de vendas
 - Tratamento de exceções
 - API REST com Django REST Framework
-- Testes automatizados básicos
+- Integração com API ViaCEP
+- Consulta de CEP em tempo real
+- Testes automatizados
+- CI com GitHub Actions
+
+---
+
+## Integração com API Pública
+
+O sistema possui integração com a API pública ViaCEP para consulta automática de endereços a partir do CEP informado.
+
+### Endpoint de consulta
+
+```txt
+/api/clientes/consultar_cep/?cep=01001000
+```
+
+### Exemplo de resposta
+
+```json
+{
+    "rua": "Praça da Sé",
+    "bairro": "Sé",
+    "cidade": "São Paulo",
+    "estado": "SP"
+}
+```
 
 ---
 
@@ -29,6 +63,11 @@ O sistema permite gerenciamento de clientes, produtos, vendas, controle de estoq
 - Django
 - Django REST Framework
 - SQLite
+- Requests
+- Pytest
+- Gunicorn
+- GitHub Actions
+- Render
 - HTML/CSS
 - Git e GitHub
 
@@ -38,6 +77,13 @@ O sistema permite gerenciamento de clientes, produtos, vendas, controle de estoq
 
 ```txt
 clientes/
+│
+├── services/
+│   └── viacep.py
+│
+├── tests/
+│   └── test_viacep.py
+│
 produtos/
 vendas/
 core/
@@ -60,29 +106,53 @@ Script SQL disponível em:
 
 ## Como Executar o Projeto
 
+### Clonar repositório
+
+```bash
+git clone https://github.com/SEU_USUARIO/sgc-loja-roupas.git
+```
+
+---
+
 ### Criar ambiente virtual
 
 ```bash
 python -m venv venv
 ```
 
+---
+
 ### Ativar ambiente virtual
+
+#### Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
+#### Linux/macOS
+
+```bash
+source venv/bin/activate
+```
+
+---
+
 ### Instalar dependências
 
 ```bash
-pip install django djangorestframework
+pip install -r requirements.txt
 ```
+
+---
 
 ### Rodar migrations
 
 ```bash
 python manage.py migrate
 ```
+
+---
 
 ### Executar servidor
 
@@ -108,11 +178,15 @@ python manage.py test
 http://127.0.0.1:8000/
 ```
 
+---
+
 ### API Produtos
 
 ```txt
 http://127.0.0.1:8000/api/produtos/
 ```
+
+---
 
 ### API Clientes
 
@@ -120,11 +194,37 @@ http://127.0.0.1:8000/api/produtos/
 http://127.0.0.1:8000/api/clientes/
 ```
 
+---
+
 ### API Vendas
 
 ```txt
 http://127.0.0.1:8000/api/vendas/
 ```
+
+---
+
+### Consulta CEP
+
+```txt
+http://127.0.0.1:8000/api/clientes/consultar_cep/?cep=01001000
+```
+
+---
+
+## Testes Automatizados
+
+O projeto possui testes automatizados para validar:
+
+- integração com API ViaCEP;
+- funcionamento dos endpoints;
+- consistência da aplicação.
+
+---
+
+## CI/CD
+
+O projeto utiliza GitHub Actions para execução automática dos testes e validação contínua da aplicação.
 
 ---
 
