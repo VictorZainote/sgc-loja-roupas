@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .models import Cliente
+from ..models import Cliente
 
 
 class ClienteTestCase(TestCase):

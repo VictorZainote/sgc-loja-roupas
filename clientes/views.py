@@ -1,6 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import action
+from .services.viacep import buscar_cep
 
 from .models import Cliente
 from .serializers import ClienteSerializer
@@ -37,3 +39,29 @@ class ClienteViewSet(viewsets.ModelViewSet):
             *args,
             **kwargs
         )
+    @action(detail=False, methods=["get"])
+    def consultar_cep(self, request):
+
+        cep = request.query_params.get("cep")
+
+        if not cep:
+
+            return Response(
+                {
+                    "erro": "CEP não informado"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        resultado = buscar_cep(cep)
+
+        if not resultado:
+
+            return Response(
+                {
+                    "erro": "CEP não encontrado"
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        return Response(resultado)
