@@ -4,7 +4,7 @@
 
 Aplicação publicada em:
 
-[LINK_DO_RENDER_AQUI]
+https://sgc-loja-roupas.onrender.com/
 
 ---
 
@@ -109,7 +109,7 @@ Script SQL disponível em:
 ### Clonar repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/sgc-loja-roupas.git
+git clone https://github.com/VictorZainote/sgc-loja-roupas.git
 ```
 
 ---
