@@ -62,6 +62,7 @@ O sistema possui integração com a API pública ViaCEP para consulta automátic
 - Python
 - Django
 - Django REST Framework
+- Django ORM
 - Requests
 - Pytest
 - Gunicorn
