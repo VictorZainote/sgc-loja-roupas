@@ -62,7 +62,6 @@ O sistema possui integração com a API pública ViaCEP para consulta automátic
 - Python
 - Django
 - Django REST Framework
-- SQLite
 - Requests
 - Pytest
 - Gunicorn
@@ -70,6 +69,10 @@ O sistema possui integração com a API pública ViaCEP para consulta automátic
 - Render
 - HTML/CSS
 - Git e GitHub
+- PostgreSQL
+- Supabase
+- python-dotenv
+- psycopg2-binary
 
 ---
 
@@ -96,13 +99,13 @@ database/
 
 ## Banco de Dados
 
-Script SQL disponível em:
+O projeto utiliza PostgreSQL hospedado no Supabase para persistência dos dados.
 
-```txt
-/database/script.sql
-```
+Tecnologias:
 
----
+- PostgreSQL
+- Supabase
+- Django ORM
 
 ## Como Executar o Projeto
 
