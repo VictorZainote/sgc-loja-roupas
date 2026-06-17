@@ -18,4 +18,10 @@ class ProdutoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Estoque não pode ser negativo"
             )
-        return value        
+        return value      
+    def validate_nome(self, value):
+        if not value:
+            raise serializers.ValidationError(
+                "Nome do produto é obrigatório"
+            )
+        return value  

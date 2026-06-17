@@ -3,22 +3,47 @@
 {% block content %}
 
 <div class="card">
-    <h1>Sistema de Gestão de Loja</h1>
+    <h1>Sistema de Gestão</h1>
 
     <p>
-        Backend desenvolvido em Django REST Framework.
+        Sistema desenvolvido para lojas de roupas com controle de clientes,
+        produtos, estoque e vendas.
     </p>
 </div>
 
+<div class="card dashboard-card">
+    <h3>👕 Produtos</h3>
+    <div class="number">{{ total_produtos }}</div>
+</div>
+
+<div class="card dashboard-card">
+    <h3>👥 Clientes</h3>
+    <div class="number">{{ total_clientes }}</div>
+</div>
+
+<div class="card dashboard-card">
+    <h3>🛒 Vendas</h3>
+    <div class="number">{{ total_vendas }}</div>
+</div>
+
+<!-- <div class="card dashboard-card">
+    <h3>📊 Relatórios</h3>
+    <p>Visualização de indicadores e resultados.</p>
+</div> -->
+
+</div>
+
 <div class="card">
-    <h2>Funcionalidades</h2>
+    <h2>Principais Funcionalidades</h2>
 
     <ul>
         <li>Cadastro de produtos</li>
         <li>Cadastro de clientes</li>
         <li>Controle de estoque</li>
         <li>Registro de vendas</li>
-        <li>Relatórios</li>
+        <li>Relatórios gerenciais</li>
+        <li>API REST integrada</li>
+        <li>Autenticação JWT</li>
     </ul>
 </div>
 

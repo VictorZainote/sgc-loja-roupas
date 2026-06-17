@@ -11,7 +11,7 @@ from vendas.views import (
 )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .views import home
+from .views import api_root, home
 
 router = DefaultRouter()
 
@@ -26,6 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/', include(router.urls)),
+    
+    path('api/', api_root),
 
     path(
         'relatorios/vendas/',
@@ -40,5 +42,9 @@ urlpatterns = [
         'api/token/refresh/',
         TokenRefreshView.as_view(),
         name='token_refresh'
+    ),
+    path(
+        'api-auth/',
+        include('rest_framework.urls')
     ),
 ]
