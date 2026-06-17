@@ -1,7 +1,10 @@
+from produtos.models import Produto
+from produtos.serializers import ProdutoSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from .services.viacep import buscar_cep
 
 from .models import Cliente
@@ -11,9 +14,9 @@ from vendas.models import Venda
 
 
 class ClienteViewSet(viewsets.ModelViewSet):
-
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
+    permission_classes = [IsAuthenticated]
 
     def destroy(self, request, *args, **kwargs):
 

@@ -9,6 +9,7 @@ from vendas.views import (
     VendaViewSet,
     relatorio_vendas
 )
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .views import home
 
@@ -29,5 +30,15 @@ urlpatterns = [
     path(
         'relatorios/vendas/',
         relatorio_vendas
+    ),
+    path(
+        'api/token/',
+        TokenObtainPairView.as_view(),
+        name='token_obtain_pair'
+    ),
+    path(
+        'api/token/refresh/',
+        TokenRefreshView.as_view(),
+        name='token_refresh'
     ),
 ]
