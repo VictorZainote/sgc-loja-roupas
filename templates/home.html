@@ -1,50 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<section class="page-header">
+    <div>
+        <h1>Sistema de Gestao Comercial</h1>
+        <p>Controle de clientes, produtos, estoque e vendas para loja de roupas.</p>
+    </div>
+    <a class="button-link" href="/login/">Entrar</a>
+</section>
 
-<div class="card">
-    <h1>Sistema de Gestão</h1>
+<section class="dashboard-grid">
+    <article class="card dashboard-card">
+        <h3>Produtos</h3>
+        <div class="number">{{ total_produtos }}</div>
+    </article>
 
-    <p>
-        Sistema desenvolvido para lojas de roupas com controle de clientes,
-        produtos, estoque e vendas.
-    </p>
-</div>
+    <article class="card dashboard-card">
+        <h3>Clientes</h3>
+        <div class="number">{{ total_clientes }}</div>
+    </article>
 
-<div class="card dashboard-card">
-    <h3>👕 Produtos</h3>
-    <div class="number">{{ total_produtos }}</div>
-</div>
+    <article class="card dashboard-card">
+        <h3>Vendas</h3>
+        <div class="number">{{ total_vendas }}</div>
+    </article>
+</section>
 
-<div class="card dashboard-card">
-    <h3>👥 Clientes</h3>
-    <div class="number">{{ total_clientes }}</div>
-</div>
-
-<div class="card dashboard-card">
-    <h3>🛒 Vendas</h3>
-    <div class="number">{{ total_vendas }}</div>
-</div>
-
-<!-- <div class="card dashboard-card">
-    <h3>📊 Relatórios</h3>
-    <p>Visualização de indicadores e resultados.</p>
-</div> -->
-
-</div>
-
-<div class="card">
-    <h2>Principais Funcionalidades</h2>
-
-    <ul>
-        <li>Cadastro de produtos</li>
-        <li>Cadastro de clientes</li>
-        <li>Controle de estoque</li>
-        <li>Registro de vendas</li>
-        <li>Relatórios gerenciais</li>
-        <li>API REST integrada</li>
-        <li>Autenticação JWT</li>
-    </ul>
-</div>
-
+<section class="card">
+    <h2>Fluxo principal</h2>
+    <div class="action-row">
+        <a class="button-link" href="/clientes/">Cadastrar clientes</a>
+        <a class="button-link" href="/produtos/">Cadastrar produtos</a>
+        <a class="button-link" href="/vendas/">Registrar vendas</a>
+    </div>
+</section>
 {% endblock %}

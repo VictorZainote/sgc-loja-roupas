@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>Consulta de CEP</h1>
+        <p>Consulte endereco pela integracao publica com ViaCEP.</p>
+    </div>
+</section>
+
+<section class="content-grid">
+    <article class="card">
+        <h2>Buscar endereco</h2>
+        <form id="cep-form" class="form-grid">
+            <label>
+                CEP
+                <input id="cep" inputmode="numeric" maxlength="9" placeholder="01001000" required>
+            </label>
+            <button type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Consultar CEP
+            </button>
+        </form>
+        <p id="cep-message" class="message"></p>
+    </article>
+
+    <article class="card">
+        <h2>Resultado</h2>
+        <dl class="result-list">
+            <div>
+                <dt>Rua</dt>
+                <dd id="rua">-</dd>
+            </div>
+            <div>
+                <dt>Bairro</dt>
+                <dd id="bairro">-</dd>
+            </div>
+            <div>
+                <dt>Cidade</dt>
+                <dd id="cidade">-</dd>
+            </div>
+            <div>
+                <dt>Estado</dt>
+                <dd id="estado">-</dd>
+            </div>
+        </dl>
+    </article>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const form = document.getElementById("cep-form");
+const message = document.getElementById("cep-message");
+
+function setResult(data = {}) {
+    document.getElementById("rua").textContent = data.rua || "-";
+    document.getElementById("bairro").textContent = data.bairro || "-";
+    document.getElementById("cidade").textContent = data.cidade || "-";
+    document.getElementById("estado").textContent = data.estado || "-";
+}
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const cep = document.getElementById("cep").value.replace(/\D/g, "");
+
+    if (cep.length !== 8) {
+        message.textContent = "Informe um CEP com 8 digitos.";
+        setResult();
+        return;
+    }
+
+    message.textContent = "Consultando...";
+    setResult();
+
+    try {
+        const response = await fetch(`/api/clientes/consultar_cep/?cep=${cep}`);
+        const data = await response.json();
+        console.log("Dados do CEP:", data);
+
+        if (!response.ok) {
+            throw new Error(data.erro || "CEP nao encontrado");
+        }
+
+        setResult(data);
+        message.textContent = "Consulta realizada com sucesso.";
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
+</script>
+{% endblock %}

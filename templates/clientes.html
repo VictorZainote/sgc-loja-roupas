@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>Clientes</h1>
+        <p>Cadastre, consulte e remova clientes pela API protegida por JWT.</p>
+    </div>
+    <button type="button" onclick="logout()">Sair</button>
+</section>
+
+<section class="content-grid">
+    <article class="card">
+        <h2>Novo cliente</h2>
+        <form id="cliente-form" class="form-grid">
+            <label>
+                Nome
+                <input id="nome" required>
+            </label>
+            <label>
+                Email
+                <input id="email" type="email" required>
+            </label>
+            <label>
+                Telefone
+                <input id="telefone" required>
+            </label>
+            <button type="submit">Salvar cliente</button>
+        </form>
+        <p id="cliente-message" class="message"></p>
+    </article>
+
+    <article class="card">
+        <h2>Clientes cadastrados</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="clientes-list"></tbody>
+            </table>
+        </div>
+    </article>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/api.js' %}"></script>
+<script>
+requireAuth();
+
+const form = document.getElementById("cliente-form");
+const list = document.getElementById("clientes-list");
+const message = document.getElementById("cliente-message");
+
+async function loadClientes() {
+    const clientes = await apiFetch("/api/clientes/");
+    list.innerHTML = clientes.map((cliente) => `
+        <tr>
+            <td>${cliente.nome}</td>
+            <td>${cliente.email}</td>
+            <td>${cliente.telefone}</td>
+            <td><button type="button" data-id="${cliente.id}">Excluir</button></td>
+        </tr>
+    `).join("");
+}
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    message.textContent = "";
+
+    try {
+        await apiFetch("/api/clientes/", {
+            method: "POST",
+            body: JSON.stringify({
+                nome: document.getElementById("nome").value,
+                email: document.getElementById("email").value,
+                telefone: document.getElementById("telefone").value,
+            }),
+        });
+        form.reset();
+        message.textContent = "Cliente salvo.";
+        await loadClientes();
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
+
+list.addEventListener("click", async (event) => {
+    const id = event.target.dataset.id;
+    if (!id) return;
+
+    try {
+        await apiFetch(`/api/clientes/${id}/`, { method: "DELETE" });
+        await loadClientes();
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
+
+loadClientes();
+</script>
+{% endblock %}

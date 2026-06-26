@@ -1,23 +1,63 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+<section class="auth-layout">
+    <div class="card auth-card">
+        <h1>Login</h1>
+        <p>Entre com o usuario criado no Django Admin para liberar o acesso as telas e a API.</p>
 
-<div class="card" style="max-width:500px;margin:auto;">
+        <form id="login-form" class="form-grid">
+            <label>
+                Usuario
+                <input id="username" name="username" autocomplete="username" required>
+            </label>
 
-    <h1>Login</h1>
+            <label>
+                Senha
+                <input id="password" name="password" type="password" autocomplete="current-password" required>
+            </label>
 
-    <form method="post">
+            <button type="submit">Entrar</button>
+        </form>
 
-        {% csrf_token %}
+        <p id="login-message" class="message"></p>
+    </div>
+</section>
+{% endblock %}
 
-        {{ form.as_p }}
+{% block scripts %}
+<script src="{% static 'js/api.js' %}"></script>
+<script>
+document.getElementById("login-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-        <button type="submit">
-            Entrar
-        </button>
+    const message = document.getElementById("login-message");
+    message.textContent = "Validando acesso...";
 
-    </form>
+    try {
+        const response = await fetch("/api/token/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+            }),
+        });
 
-</div>
+        const data = await response.json();
 
+        if (!response.ok) {
+            throw new Error(data.detail || "Usuario ou senha invalidos");
+        }
+
+        setTokens(data);
+        window.location.href = "/";
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
+</script>
 {% endblock %}
