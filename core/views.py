@@ -22,3 +22,27 @@ def home(request):
     }
 
     return render(request, "home.html", context)
+
+
+def login_page(request):
+    return render(request, "registro/login.html")
+
+
+def clientes_page(request):
+    return render(request, "clientes.html")
+
+
+def produtos_page(request):
+    return render(request, "produtos.html")
+
+
+def vendas_page(request):
+    context = {
+        "clientes": Cliente.objects.order_by("nome"),
+        "produtos": Produto.objects.order_by("nome"),
+    }
+    return render(request, "vendas.html", context)
+
+
+def cep_page(request):
+    return render(request, "cep.html")
