@@ -5,29 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGC Loja</title>
-    
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
-    </head>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20260624-purple">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
 <body>
-
 <header>
-    <div class="logo">
-        SGC Loja
-    </div>
+    <a class="logo" href="/">SGC VH</a>
 
     <nav>
-        <a href="/api/produtos/">Produtos</a>
-        <a href="/api/clientes/">Clientes</a>
-        <a href="/api/vendas/">Vendas</a>
-        <a href="/relatorios/vendas/">Relatórios</a>
+        <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
+        <a href="/produtos/"><i class="fa-solid fa-shirt"></i> Produtos</a>
+        <a href="/clientes/"><i class="fa-solid fa-users"></i> Clientes</a>
+        <a href="/vendas/"><i class="fa-solid fa-cart-shopping"></i> Vendas</a>
+        <a href="/cep/"><i class="fa-solid fa-location-dot"></i> CEP</a>
+        <a href="/login/"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
     </nav>
 </header>
 
-<div class="container">
+<main class="container">
     {% block content %}
     {% endblock %}
-</div>
+</main>
 
+{% block scripts %}
+{% endblock %}
 </body>
 </html>

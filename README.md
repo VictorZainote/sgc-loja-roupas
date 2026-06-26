@@ -108,6 +108,15 @@ Tecnologias:
 - Supabase
 - Django ORM
 
+## Autenticação JWT
+
+POST /api/token/
+
+{
+  "username": "...",
+  "password": "..."
+}
+
 ## Como Executar o Projeto
 
 ### Clonar repositório

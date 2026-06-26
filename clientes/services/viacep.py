@@ -2,29 +2,33 @@ import requests
 
 
 def buscar_cep(cep):
+    cep = "".join(filter(str.isdigit, cep))
 
-    cep = cep.replace("-", "").strip()
+    if len(cep) != 8:
+        print(f"CEP invalido: {cep}")
+        return None
 
     url = f"https://viacep.com.br/ws/{cep}/json/"
 
     try:
-
-        response = requests.get(url)
-
-        if response.status_code != 200:
-            return None
-
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
         dados = response.json()
 
         if "erro" in dados:
+            print(f"CEP nao encontrado: {cep}")
             return None
 
-        return {
+        resultado = {
             "rua": dados.get("logradouro"),
             "bairro": dados.get("bairro"),
             "cidade": dados.get("localidade"),
             "estado": dados.get("uf")
         }
 
-    except:
+        print("Dados ViaCEP:", resultado)
+        return resultado
+
+    except requests.RequestException as erro:
+        print(f"Erro ao consultar ViaCEP: {erro}")
         return None

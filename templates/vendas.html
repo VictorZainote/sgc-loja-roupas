@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>Vendas</h1>
+        <p>Registre vendas, calcule o total automaticamente e baixe o estoque.</p>
+    </div>
+    <button type="button" onclick="logout()">Sair</button>
+</section>
+
+<section class="content-grid">
+    <article class="card">
+        <h2>Nova venda</h2>
+        <form id="venda-form" class="form-grid">
+            <label>
+                Cliente
+                <select id="cliente" required></select>
+            </label>
+            <label>
+                Produto
+                <select id="produto" required></select>
+            </label>
+            <label>
+                Quantidade
+                <input id="quantidade" type="number" min="1" step="1" required>
+            </label>
+            <button type="submit">Registrar venda</button>
+        </form>
+        <p id="venda-message" class="message"></p>
+    </article>
+
+    <article class="card">
+        <h2>Vendas registradas</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Produto</th>
+                        <th>Qtd.</th>
+                        <th>Total</th>
+                        <th>Data</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="vendas-list"></tbody>
+            </table>
+        </div>
+    </article>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/api.js' %}"></script>
+<script>
+requireAuth();
+
+const form = document.getElementById("venda-form");
+const clienteSelect = document.getElementById("cliente");
+const produtoSelect = document.getElementById("produto");
+const list = document.getElementById("vendas-list");
+const message = document.getElementById("venda-message");
+
+let clientesById = {};
+let produtosById = {};
+
+function optionList(items, labelBuilder) {
+    return items.map((item) => `<option value="${item.id}">${labelBuilder(item)}</option>`).join("");
+}
+
+async function loadOptions() {
+    const [clientes, produtos] = await Promise.all([
+        apiFetch("/api/clientes/"),
+        apiFetch("/api/produtos/"),
+    ]);
+
+    clientesById = Object.fromEntries(clientes.map((cliente) => [cliente.id, cliente]));
+    produtosById = Object.fromEntries(produtos.map((produto) => [produto.id, produto]));
+
+    clienteSelect.innerHTML = optionList(clientes, (cliente) => cliente.nome);
+    produtoSelect.innerHTML = optionList(produtos, (produto) => {
+        return `${produto.nome} - ${formatCurrency(produto.preco)} - estoque ${produto.quantidade_estoque}`;
+    });
+}
+
+async function loadVendas() {
+    const vendas = await apiFetch("/api/vendas/");
+    list.innerHTML = vendas.map((venda) => {
+        const cliente = venda.cliente_nome || clientesById[venda.cliente]?.nome || venda.cliente;
+        const produto = venda.produto_nome || produtosById[venda.produto]?.nome || venda.produto;
+        const data = new Date(venda.data_venda).toLocaleString("pt-BR");
+
+        return `
+            <tr>
+                <td>${cliente}</td>
+                <td>${produto}</td>
+                <td>${venda.quantidade}</td>
+                <td>${formatCurrency(venda.valor_total)}</td>
+                <td>${data}</td>
+                <td><button type="button" data-id="${venda.id}">Excluir</button></td>
+            </tr>
+        `;
+    }).join("");
+}
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    message.textContent = "";
+
+    try {
+        await apiFetch("/api/vendas/", {
+            method: "POST",
+            body: JSON.stringify({
+                cliente: clienteSelect.value,
+                produto: produtoSelect.value,
+                quantidade: document.getElementById("quantidade").value,
+            }),
+        });
+        form.reset();
+        message.textContent = "Venda registrada.";
+        await loadOptions();
+        await loadVendas();
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
+
+list.addEventListener("click", async (event) => {
+    const id = event.target.dataset.id;
+    if (!id) return;
+
+    message.textContent = "";
+
+    try {
+        await apiFetch(`/api/vendas/${id}/`, { method: "DELETE" });
+        message.textContent = "Venda excluida.";
+        await loadOptions();
+        await loadVendas();
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
+
+async function init() {
+    await loadOptions();
+    await loadVendas();
+}
+
+init();
+</script>
+{% endblock %}

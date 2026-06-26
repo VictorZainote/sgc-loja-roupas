@@ -6,11 +6,19 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     
     <style>
-        .navbar-inverse { 
-            background-color: var(--dark-blue) !important; 
-            border-bottom: 2px solid var(--purple) !important;
+        .navbar-brand {
+            color: var(--light-blue) !important;
+            font-size: 1.4rem !important;
+            font-weight: 700 !important;
         }
-        .breadcrumb { background-color: var(--mid-blue) !important; }
+        .navbar-brand {
+            font-weight: 700 !important;
+            color: var(--light-blue) !important;
+        }
+        .breadcrumb { 
+            background-color: var(--mid-blue) !important;
+            border: 1px solid var(--gray) !important;
+        }
         .well { 
             background-color: var(--mid-blue) !important; 
             border: 1px solid var(--gray) !important; 
@@ -20,6 +28,47 @@
             color: var(--off-white) !important;
             border: 1px solid var(--purple) !important;
         }
-        .btn-primary { background-color: var(--purple) !important; border: none !important; }
+        .btn-primary {
+            background-color: var(--purple) !important;
+            border: none !important;
+            border-radius: 8px !important;
+        }
+        .btn-primary:hover {
+            background-color: var(--light-purple) !important;
+        }
+        .form-control,
+        select,
+        textarea {
+            background-color: var(--dark-blue) !important;
+            color: var(--off-white) !important;
+            border: 1px solid var(--gray) !important;
+        }
+
+        .form-control:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--light-blue) !important;
+            box-shadow: 0 0 0 3px rgba(56,189,248,.2) !important;
+        }
+        .table {
+            background-color: var(--mid-blue) !important;
+        }
+
+        .table th {
+            background-color: var(--purple) !important;
+            color: white !important;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(181,23,158,.08) !important;
+        }
+        a {
+            color: var(--light-blue) !important;
+        }
+
+        a:hover {
+            color: var(--light-purple) !important;
+        }
+
     </style>
 {% endblock %}
