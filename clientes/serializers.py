@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from .models import Cliente
+
 
 class ClienteSerializer(serializers.ModelSerializer):
 
@@ -8,22 +10,18 @@ class ClienteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate_email(self, value):
-        if Cliente.objects.filter(email=value).exists():
-            raise serializers.ValidationError(
-                "Email já cadastrado"
-            )
+        queryset = Cliente.objects.filter(email=value)
+
+        if self.instance:
+            queryset = queryset.exclude(pk=self.instance.pk)
+
+        if queryset.exists():
+            raise serializers.ValidationError("Email ja cadastrado")
+
         return value
 
-    def validate_cpf(self, value):
-        if Cliente.objects.filter(cpf=value).exists():
-            raise serializers.ValidationError(
-                "CPF já cadastrado"
-            )
-        return value
     def validate_nome(self, value):
         if not value:
-            raise serializers.ValidationError(
-                "Nome do cliente é obrigatório"
-            )
+            raise serializers.ValidationError("Nome do cliente e obrigatorio")
+
         return value
-        
