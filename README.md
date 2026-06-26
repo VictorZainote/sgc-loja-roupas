@@ -1,266 +1,180 @@
-# SGC - Sistema de Gestão Comercial
+# Sistema de Vendas - Django
 
-## Deploy da Aplicação
-
-Aplicação publicada em:
-
-https://sgc-loja-roupas.onrender.com/
-
----
-
-## Descrição
-
-Sistema de Gestão Comercial desenvolvido para uma loja de roupas utilizando Django e Django REST Framework.
-
-O sistema permite gerenciamento de clientes, produtos, vendas, controle de estoque e relatórios, seguindo princípios de APIs REST, integração com serviços externos e testes automatizados.
-
----
+Um sistema completo de gerenciamento de vendas desenvolvido em Django, com funcionalidades para cadastro de clientes, produtos e controle de vendas.
 
 ## Funcionalidades
 
-- Cadastro de clientes
-- Edição e listagem de clientes
-- Cadastro de produtos
-- Controle de estoque
-- Registro de vendas
-- Cálculo automático do valor total da venda
-- Relatórios de vendas
-- Tratamento de exceções
-- API REST com Django REST Framework
-- Integração com API ViaCEP
-- Consulta de CEP em tempo real
-- Testes automatizados
-- CI com GitHub Actions
-
----
-
-## Integração com API Pública
-
-O sistema possui integração com a API pública ViaCEP para consulta automática de endereços a partir do CEP informado.
-
-### Endpoint de consulta
-
-```txt
-/api/clientes/consultar_cep/?cep=01001000
-```
-
-### Exemplo de resposta
-
-```json
-{
-    "rua": "Praça da Sé",
-    "bairro": "Sé",
-    "cidade": "São Paulo",
-    "estado": "SP"
-}
-```
-
----
+- **Dashboard** com visão geral do sistema
+- **Gestão de Clientes** - cadastro e visualização
+- **Gestão de Produtos** - cadastro e visualização
+- **Controle de Vendas** - registro e acompanhamento
+- **Interface moderna** com Bootstrap 5
+- **Painel administrativo** completo
+- **Dados de teste** incluídos
 
 ## Tecnologias Utilizadas
+ 
+- **Backend**: Django 3.2
+- **Banco de Dados**: SQLite3
+- **Frontend**: Bootstrap 5 + Font Awesome
+- **Linguagem**: Python 3.x
 
-- Python
-- Django
-- Django REST Framework
-- Django ORM
-- Requests
-- Pytest
-- Gunicorn
-- GitHub Actions
-- Render
-- HTML/CSS
-- Git e GitHub
-- PostgreSQL
-- Supabase
-- python-dotenv
-- psycopg2-binary
+## Pré-requisitos
 
----
+- Python 3.7 ou superior
+- pip (gerenciador de pacotes Python)
+
+## Instalação
+
+1. **Clone o repositório** (se aplicável) ou navegue até a pasta do projeto:
+   ```bash
+   cd exemplo_django
+   ```
+
+2. **Instale as dependências**:
+   ```bash
+   pip install django
+   ```
+
+3. **Execute as migrações**:
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+4. **Carregue os dados de teste**:
+   ```bash
+   python manage.py loaddata vendas/fixtures/dados_teste.json
+   ```
+
+5. **Crie um superusuário** (opcional):
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+6. **Execute o servidor**:
+   ```bash
+   python manage.py runserver
+   ```
+
+7. **Acesse o sistema**:
+   - **Sistema principal**: http://127.0.0.1:8000/
+   - **Painel admin**: http://127.0.0.1:8000/admin/
+
+## Estrutura do Banco de Dados
+
+### Modelos
+
+- **Cliente**: nome, email, data de cadastro
+- **Produto**: nome, valor, data de cadastro
+- **Venda**: cliente, produtos (relacionamento many-to-many), data/hora, valor total
+- **ItemVenda**: venda, produto, quantidade, valor unitário (tabela intermediária)
+
+### Relacionamentos
+
+- Uma venda pertence a um cliente
+- Uma venda pode ter vários produtos através da tabela ItemVenda
+- Cada item de venda registra quantidade e valor unitário
+
+## Como Usar
+
+### 1. Dashboard
+- Acesse a página inicial para ver estatísticas gerais
+- Visualize totais de clientes, produtos e vendas
+- Acompanhe vendas recentes
+
+### 2. Gestão de Clientes
+- Visualize todos os clientes cadastrados
+- Acesse através do menu "Clientes"
+
+### 3. Gestão de Produtos
+- Visualize todos os produtos cadastrados
+- Cadastre novos produtos através do botão "Novo Produto"
+- Acesse através do menu "Produtos"
+
+### 4. Controle de Vendas
+- Visualize todas as vendas registradas
+- Acesse detalhes de cada venda
+- Acesse através do menu "Vendas"
+
+### 5. Painel Administrativo
+- Gerencie todos os dados através do Django Admin
+- Acesse através do menu "Admin" ou diretamente em `/admin/`
 
 ## Estrutura do Projeto
 
-```txt
-clientes/
-│
-├── services/
-│   └── viacep.py
-│
-├── tests/
-│   └── test_viacep.py
-│
-produtos/
-vendas/
-core/
-templates/
-static/
-database/
+```
+exemplo_django/
+├── vendas_project/          # Configurações do projeto
+│   ├── settings.py         # Configurações Django
+│   ├── urls.py            # URLs principais
+│   └── wsgi.py            # Configuração WSGI
+├── vendas/                 # Aplicação principal
+│   ├── models.py          # Modelos de dados
+│   ├── views.py           # Lógica de negócio
+│   ├── forms.py           # Formulários
+│   ├── admin.py           # Configuração do admin
+│   ├── urls.py            # URLs da aplicação
+│   ├── templates/         # Templates HTML
+│   │   └── vendas/
+│   │       ├── base.html          # Template base
+│   │       ├── home.html          # Página inicial
+│   │       ├── cliente_list.html  # Lista de clientes
+│   │       ├── produto_list.html  # Lista de produtos
+│   │       ├── produto_form.html  # Formulário de produto
+│   │       ├── venda_list.html    # Lista de vendas
+│   │       └── venda_detail.html  # Detalhes da venda
+│   └── fixtures/          # Dados de teste
+│       └── dados_teste.json
+├── manage.py              # Script de gerenciamento Django
+└── README.md              # Este arquivo
 ```
 
----
+## Dados de Teste
 
-## Banco de Dados
+O sistema inclui dados de teste pré-cadastrados:
 
-O projeto utiliza PostgreSQL hospedado no Supabase para persistência dos dados.
+- **5 clientes** com nomes e emails
+- **6 produtos** de informática com valores variados
+- **5 vendas** com diferentes combinações de produtos
+- **8 itens de venda** distribuídos entre as vendas
 
-Tecnologias:
+## Acesso ao Sistema
 
-- PostgreSQL
-- Supabase
-- Django ORM
+### Usuário Padrão (se não criar superusuário)
+- **URL**: http://127.0.0.1:8000/
+- **Funcionalidades**: Visualização de dados
 
-## Autenticação JWT
+### Superusuário (recomendado)
+- **URL**: http://127.0.0.1:8000/admin/
+- **Funcionalidades**: Gerenciamento completo de todos os dados
 
-POST /api/token/
+## Personalização
 
-{
-  "username": "...",
-  "password": "..."
-}
+- **Templates**: Edite os arquivos HTML em `vendas/templates/vendas/`
+- **Estilos**: Modifique o CSS inline ou adicione arquivos CSS externos
+- **Funcionalidades**: Adicione novas views em `vendas/views.py`
 
-## Como Executar o Projeto
+## Solução de Problemas
 
-### Clonar repositório
-
+### Erro de migração
 ```bash
-git clone https://github.com/VictorZainote/sgc-loja-roupas.git
-```
-
----
-
-### Criar ambiente virtual
-
-```bash
-python -m venv venv
-```
-
----
-
-### Ativar ambiente virtual
-
-#### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-#### Linux/macOS
-
-```bash
-source venv/bin/activate
-```
-
----
-
-### Instalar dependências
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-### Rodar migrations
-
-```bash
+python manage.py makemigrations vendas
 python manage.py migrate
 ```
 
----
-
-### Executar servidor
-
+### Erro de dados de teste
 ```bash
-python manage.py runserver
+python manage.py flush  # Limpa o banco
+python manage.py loaddata vendas/fixtures/dados_teste.json
 ```
 
----
-
-## Executar Testes
-
+### Erro de dependências
 ```bash
-python manage.py test
+pip install -r requirements.txt  # Se existir
+# Ou instale manualmente:
+pip install django
 ```
-
----
-
-## Rotas Principais
-
-### Home
-
-```txt
-http://127.0.0.1:8000/
-```
-
----
-
-### API Produtos
-
-```txt
-http://127.0.0.1:8000/api/produtos/
-```
-
----
-
-### API Clientes
-
-```txt
-http://127.0.0.1:8000/api/clientes/
-```
-
----
-
-### API Vendas
-
-```txt
-http://127.0.0.1:8000/api/vendas/
-```
-
----
-
-### Consulta CEP
-
-```txt
-http://127.0.0.1:8000/api/clientes/consultar_cep/?cep=01001000
-```
-
----
-
-## Testes Automatizados
-
-O projeto possui testes automatizados para validar:
-
-- integração com API ViaCEP;
-- funcionamento dos endpoints;
-- consistência da aplicação.
-
----
-
-## CI/CD
-
-O projeto utiliza GitHub Actions para execução automática dos testes e validação contínua da aplicação.
-
----
-
-## Modelagem
-
-O projeto contém:
-
-- Diagrama de Domínio
-- Diagrama de Classes
-- Diagrama Lógico do Banco de Dados
-
----
-
-## Documentação
-
-Documentação complementar:
-
-```txt
-https://docs.google.com/document/d/1AJ8xdTkNCCYhtKbnrIHEyspB8Yrpt4DlH7d6ma2dEXI/edit?tab=t.0
-```
-
----
-
 ## Autor
 
 Victor Hugo Zainote
