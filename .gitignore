@@ -8,6 +8,9 @@ venv/
 # Python
 __pycache__/
 *.pyc
+*.pyc
+__pycache__/
+db.sqlite3
 
 # Banco local
 db.sqlite3
