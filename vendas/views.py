@@ -1,21 +1,32 @@
-from rest_framework import viewsets
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import serializers, viewsets
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from .models import Venda
 from .serializers import VendaSerializer
 
 
 class VendaViewSet(viewsets.ModelViewSet):
-    queryset = Venda.objects.all()
+    queryset = Venda.objects.select_related("cliente", "produto").all()
     serializer_class = VendaSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Venda.objects.all()
-    serializer_class = VendaSerializer
+
+    def perform_create(self, serializer):
+        try:
+            serializer.save()
+        except ValueError as error:
+            raise serializers.ValidationError({"erro": str(error)})
+
+    def perform_update(self, serializer):
+        try:
+            serializer.save()
+        except ValueError as error:
+            raise serializers.ValidationError({"erro": str(error)})
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def relatorio_vendas(request):
 
     data_inicio = request.GET.get('inicio')
