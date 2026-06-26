@@ -11,7 +11,15 @@ from vendas.views import (
 )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .views import api_root, home
+from .views import (
+    api_root,
+    cep_page,
+    clientes_page,
+    home,
+    login_page,
+    produtos_page,
+    vendas_page,
+)
 
 router = DefaultRouter()
 
@@ -21,13 +29,17 @@ router.register(r'vendas', VendaViewSet)
 
 urlpatterns = [
 
-    path('', home),
+    path('', home, name='home'),
+    path('login/', login_page, name='login'),
+    path('clientes/', clientes_page, name='clientes_page'),
+    path('produtos/', produtos_page, name='produtos_page'),
+    path('vendas/', vendas_page, name='vendas_page'),
+    path('cep/', cep_page, name='cep_page'),
 
     path('admin/', admin.site.urls),
 
+    path('api/info/', api_root, name='api_info'),
     path('api/', include(router.urls)),
-    
-    path('api/', api_root),
 
     path(
         'relatorios/vendas/',
