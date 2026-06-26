@@ -1,5 +1,5 @@
 # Sistema de Vendas - Django
-
+ 
 Um sistema completo de gerenciamento de vendas desenvolvido em Django, com funcionalidades para cadastro de clientes, produtos e controle de vendas.
 
 ## Funcionalidades
